@@ -1,0 +1,60 @@
+package com.raywenderlich.listmaker.ui.detail.ui.detail
+
+import androidx.lifecycle.ViewModelProvider
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.raywenderlich.listmaker.MainActivity
+import com.raywenderlich.listmaker.TaskList
+import com.raywenderlich.listmaker.databinding.ListDetailFragmentBinding
+import com.raywenderlich.listmaker.ui.main.MainViewModel
+import com.raywenderlich.listmaker.ui.main.MainViewModelFactory
+
+class ListDetailFragment : Fragment() {
+
+    // variable to hold a reference to the ViewBinding for fragment
+    lateinit var binding: ListDetailFragmentBinding
+
+
+    companion object {
+        fun newInstance() = ListDetailFragment()
+    }
+
+    private lateinit var viewModel: MainViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // 1
+        binding = ListDetailFragmentBinding.inflate(inflater, container, false)
+
+        // 2
+        return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
+        val list: TaskList? =
+            arguments?.getParcelable(MainActivity.INTENT_LIST_KEY)
+        if (list != null) {
+            viewModel.list = list
+            requireActivity().title = list.name
+        }
+
+        val recyclerAdapter = ListItemsRecyclerViewAdapter(viewModel.list)
+        binding.listItemsRecyclerview.adapter = recyclerAdapter
+        binding.listItemsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
+
+
+        viewModel.onTaskAdded = {
+            recyclerAdapter.notifyDataSetChanged()
+        }
+    }
+}
