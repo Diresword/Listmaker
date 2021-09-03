@@ -13,9 +13,7 @@ class ListItemsRecyclerViewAdapter(var list: TaskList) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder {
 
         val binding = ListItemViewHolderBinding.inflate(
-            LayoutInflater
-                .from(parent.context), parent, false
-        )
+            LayoutInflater.from(parent.context), parent, false)
         return ListItemViewHolder(binding)
     }
 

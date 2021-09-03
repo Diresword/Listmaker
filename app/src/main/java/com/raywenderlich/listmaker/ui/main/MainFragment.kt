@@ -38,10 +38,6 @@ class MainFragment : Fragment(), ListSelectionRecyclerViewAdapter.ListSelectionR
         binding.listsRecyclerview.layoutManager =
             LinearLayoutManager(requireContext())
 
-        // 2
-//        binding.listsRecyclerview.adapter =
-//            ListSelectionRecyclerViewAdapter()
-
         return binding.root
     }
 
@@ -49,14 +45,14 @@ class MainFragment : Fragment(), ListSelectionRecyclerViewAdapter.ListSelectionR
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(requireActivity(),
 
-    MainViewModelFactory(PreferenceManager.getDefaultSharedPreferences(requireActivity())))
+        MainViewModelFactory(PreferenceManager.getDefaultSharedPreferences(requireActivity())))
             .get(MainViewModel::class.java)
 
-    val recyclerViewAdapter = ListSelectionRecyclerViewAdapter(viewModel.lists, this)
+        val recyclerViewAdapter = ListSelectionRecyclerViewAdapter(viewModel.lists, this)
 
-    binding.listsRecyclerview.adapter = recyclerViewAdapter
+        binding.listsRecyclerview.adapter = recyclerViewAdapter
 
-    viewModel.onListAdded = {
+        viewModel.onListAdded = {
         recyclerViewAdapter.listsUpdated()
         }
     }

@@ -11,9 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.raywenderlich.listmaker.MainActivity
 import com.raywenderlich.listmaker.R
-import com.raywenderlich.listmaker.TaskList
+// import com.raywenderlich.listmaker.TaskList
 import com.raywenderlich.listmaker.databinding.ListDetailActivityBinding
-import com.raywenderlich.listmaker.ui.detail.ui.detail.ListDetailFragment
 import com.raywenderlich.listmaker.ui.main.MainFragment
 import com.raywenderlich.listmaker.ui.main.MainViewModel
 import com.raywenderlich.listmaker.ui.main.MainViewModelFactory
@@ -26,9 +25,9 @@ class ListDetailActivity : AppCompatActivity() {
     // Store the ViewModel
     lateinit var viewModel: MainViewModel
     // reference to the ListDetailFragment
-    lateinit var fragment: ListDetailFragment
+    // lateinit var fragment: ListDetailFragment
 
-    lateinit var list: TaskList
+    // lateinit var list: TaskList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +49,7 @@ class ListDetailActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance()).commitNow()
+                .replace(R.id.detail_container, MainFragment.newInstance()).commitNow()
         }
     }
 

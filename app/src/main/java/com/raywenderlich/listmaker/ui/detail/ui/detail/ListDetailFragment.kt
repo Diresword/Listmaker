@@ -2,6 +2,7 @@ package com.raywenderlich.listmaker.ui.detail.ui.detail
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.system.Os.remove
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.raywenderlich.listmaker.MainActivity
+import com.raywenderlich.listmaker.R
 import com.raywenderlich.listmaker.TaskList
 import com.raywenderlich.listmaker.databinding.ListDetailFragmentBinding
 import com.raywenderlich.listmaker.ui.main.MainViewModel
@@ -26,10 +28,8 @@ class ListDetailFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?): View {
         // 1
         binding = ListDetailFragmentBinding.inflate(inflater, container, false)
 
@@ -39,7 +39,9 @@ class ListDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(),
+            MainViewModelFactory(PreferenceManager.getDefaultSharedPreferences(requireActivity()))
+            ).get(MainViewModel::class.java)
 
         val list: TaskList? =
             arguments?.getParcelable(MainActivity.INTENT_LIST_KEY)

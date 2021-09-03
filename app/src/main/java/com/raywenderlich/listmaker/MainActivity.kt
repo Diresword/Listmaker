@@ -31,9 +31,7 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(
-            this,
-
-            MainViewModelFactory(PreferenceManager.getDefaultSharedPreferences(this))
+            this, MainViewModelFactory(PreferenceManager.getDefaultSharedPreferences(this))
         ).get(MainViewModel::class.java)
 
         binding = MainActivityBinding.inflate(layoutInflater)
@@ -44,22 +42,18 @@ class MainActivity : AppCompatActivity(),
             // 1
             val mainFragment = MainFragment.newInstance()
             mainFragment.clickListener = this
-// 2
+            // 2
             val fragmentContainerViewId: Int = if (binding.mainFragmentContainer == null) {
-                R.id.container
+                R.id.detail_container
             } else {
                 R.id.main_fragment_container
             }
             // 3
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
+            supportFragmentManager.commit { setReorderingAllowed(true)
                 add(fragmentContainerViewId, mainFragment)
             }
         }
     }
-
-
-
 
     override fun listItemTapped(list: TaskList) {
         showListDetail(list)
@@ -91,25 +85,30 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun showListDetail(list: TaskList) {
-            if (binding.mainFragmentContainer == null) {
-                val listDetailIntent = Intent(this,
-                    ListDetailActivity::class.java)
-                listDetailIntent.putExtra(INTENT_LIST_KEY, list)
-                startActivityForResult(listDetailIntent,
-                    LIST_DETAIL_REQUEST_CODE)
-            } else {
-                val bundle = bundleOf(INTENT_LIST_KEY to list)
-                supportFragmentManager.commit {
-                    setReorderingAllowed(true)
-                    replace(R.id.list_detail_fragment_container,
-                        ListDetailFragment::class.java, bundle, null)
-                }
+        if (binding.mainFragmentContainer == null) {
+            val listDetailIntent = Intent(
+                this,
+                ListDetailActivity::class.java
+            )
+            listDetailIntent.putExtra(INTENT_LIST_KEY, list)
+            startActivityForResult(
+                listDetailIntent,
+                LIST_DETAIL_REQUEST_CODE
+            )
+        } else {
+            val bundle = bundleOf(INTENT_LIST_KEY to list)
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace(
+                    R.id.list_detail_fragment_container,
+                    ListDetailFragment::class.java, bundle, null
+                )
             }
-        binding.fabButton.setOnClickListener {
-            showCreateTaskDialog()
+            binding.fabButton.setOnClickListener {
+                showCreateTaskDialog()
+            }
         }
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
